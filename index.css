@@ -1,0 +1,33 @@
+#container {
+  width: 20%;
+  margin: auto;
+}
+.add-todo {
+  margin: auto;
+  display: flex;
+  gap: 20px;
+}
+#task {
+  padding: 5px;
+  border-radius: 5px;
+}
+#checkbox {
+  height: 30px;
+  width: 30px;
+}
+
+#add-button {
+  border-radius: 5px;
+  padding: 5px 50px;
+  margin-top: 20px;
+}
+#show-task {
+  margin-top: 20px;
+}
+#show-task > * {
+  width: 100%;
+  border: 2px solid black;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+}

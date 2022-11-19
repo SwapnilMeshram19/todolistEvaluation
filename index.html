@@ -1,0 +1,44 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="add-todo">
+        <input type="text" id="task" placeholder="task" />
+        <input type="checkbox" id="checkbox" />
+      </div>
+      <button id="add-button">Add</button>
+      <div id="show-task"></div>
+    </div>
+  </body>
+
+  <script>
+    const getData = async () => {
+      try {
+        let res = await fetch("http://localhost:3000/tasks");
+        let data = await res.json();
+        displayData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getData();
+
+    const displayData = async (data) => {
+      let showTask = document.getElementById("show-task");
+
+      data &&
+        data.forEach((ele) => {
+          let task = document.createElement("div");
+          task.innerText = ele.title;
+          task.style.color = ele.status ? "green" : "red";
+          showTask.append(task);
+        });
+    };
+  </script>
+</html>
