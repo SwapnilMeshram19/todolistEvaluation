@@ -24,8 +24,12 @@
 #show-task {
   margin-top: 20px;
 }
+
 #show-task > * {
   width: 100%;
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
   border: 2px solid black;
   font-size: 25px;
   font-weight: 900;

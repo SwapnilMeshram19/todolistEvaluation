@@ -9,8 +9,8 @@
   <body>
     <div id="container">
       <div class="add-todo">
-        <input type="text" id="task" placeholder="task" />
-        <input type="checkbox" id="checkbox" />
+        <input type="text" id="title" placeholder="task" />
+        <input type="checkbox" id="status" />
       </div>
       <button id="add-button">Add</button>
       <div id="show-task"></div>
@@ -29,16 +29,71 @@
     };
     getData();
 
-    const displayData = async (data) => {
+    const displayData =(data) => {
       let showTask = document.getElementById("show-task");
 
       data &&
         data.forEach((ele) => {
+          let taskCont=document.createElement('div');
           let task = document.createElement("div");
           task.innerText = ele.title;
           task.style.color = ele.status ? "green" : "red";
-          showTask.append(task);
+          let buttons=document.createElement('div');
+          let edit=document.createElement('button');
+          edit.innerText="Edit";
+          edit.onclick=()=>{
+            localStorage.setItem('id',ele.id);
+            window.location.href='edit.html'
+          }
+          let deleteButton=document.createElement('button');
+          deleteButton.onclick=()=>deleteTasks(ele.id);
+          deleteButton.innerText="Delete";
+
+          buttons.append(edit)
+          buttons.append(deleteButton)
+          taskCont.append(task);
+          taskCont.append(buttons);
+          showTask.append(taskCont)
+
         });
     };
+
+    document.getElementById('add-button').onclick=()=>{
+        let title=document.getElementById('title').value;
+        let status=document.getElementById('status').checked;
+        data={
+            title,
+            status
+        }
+        postData(data);
+    }
+    const postData=async(data)=>{
+        try{
+            await fetch("http://localhost:3000/tasks",{
+            method:"post",
+            headers:{
+                'Content-Type': 'application/json'  
+            },
+            body:JSON.stringify(data)
+        });
+
+        }catch(error){
+            console.log(error)
+        }
+
+       
+    }
+
+    const deleteTasks=async(id)=>{
+        try{
+             let res=await fetch(`http://localhost:3000/tasks/${id}`,{
+                method:'delete'
+            }
+            )
+
+        }catch(error){
+            console.log(error)
+        }
+    }
   </script>
 </html>

@@ -1,0 +1,48 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="add-todo">
+        <input type="text" id="title" placeholder="task" />
+        <input type="checkbox" id="status" />
+      </div>
+      <button id="edit-button">Edit</button>
+    </div>
+  </body>
+
+  <script>
+    document.getElementById("edit-button").onclick = () => {
+      let id = localStorage.getItem("id");
+      console.log(id);
+      let title = document.getElementById("title").value;
+      let status = document.getElementById("status").checked;
+      let data = {
+        title,
+        status,
+      };
+      console.log(data);
+      patchData(data, id);
+    };
+    const patchData = async (data, id) => {
+      try {
+        let res = await fetch(`http://localhost:3000/tasks/${id}`, {
+          method: "patch",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body:JSON.stringify(data),
+        });
+        localStorage.removeItem("id");
+        window.location.href="index.html"
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  </script>
+</html>
